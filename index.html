@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Hallway</title>
+</head>
+<style>
+    *
+{
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body
+{
+    overflow: hidden;
+}
+
+.webgl
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+#blocker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#instructions {
+    width: 100%;
+    height: 100%;
+    color: antiquewhite;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+</style>
+<body>
+    <div id="blocker">
+        <div id="instructions">
+            <h1 style="font-size:60px">WELCOME TO AYAN'S INFINITE HALL OF FAME</h1>
+        </br>
+            <p style="font-size:36px">
+                Click to play
+            </p>
+            <p>
+                Move: WASD<br/>
+                Jump: SPACE<br/>
+                Look: MOUSE
+            </p>
+        </div>
+    </div>
+</body>
+<script type="module">
+import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
+import { PointerLockControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/PointerLockControls.js';
+import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/DRACOLoader.js'
+
+let camera, scene, renderer, controls;
+
+const objects = [];
+
+let raycaster;
+
+let moveForward = false;
+let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
+let canJump = false;
+
+let imgLoader;
+let imgMaterial1;
+let imgMaterial2;
+
+let audio = new Audio();
+let currentTime = 0;
+let hall = new THREE.Object3D();
+let hallBox = new THREE.Box3();
+let state = 0;
+let hallClone1 = new THREE.Object3D();
+let hallClone2 = new THREE.Object3D();
+let hallClone3 = new THREE.Object3D();
+let hallClone4 = new THREE.Object3D();
+let hallSize = 0;
+
+let prevTime = performance.now();
+const velocity = new THREE.Vector3();
+const direction = new THREE.Vector3();
+
+init();
+animate();
+
+function init() {
+
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight);
+    camera.position.z = 90;
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color( 0x47241d );
+    scene.fog = new THREE.Fog( 0x47241d,0,360);
+
+    const dracoLoader = new DRACOLoader()
+    dracoLoader.setDecoderPath('/static/draco/')
+
+    const gltfLoader = new GLTFLoader()
+    gltfLoader.setDRACOLoader(dracoLoader)
+
+    gltfLoader.load(
+        '/static/models/hall.gltf',
+        (gltf) =>
+        {   gltf.scene.scale.set(20,20,20)
+            gltf.scene.position.y = 10
+            hall = gltf.scene
+            hallSize = 0;
+        
+            hallClone1 = hall.clone();
+            hallClone2 = hall.clone();
+            hallClone3 = hall.clone();
+            hallClone4 = hall.clone();
+            hallBox = new THREE.Box3().setFromObject(hall);
+            hallSize = hallBox.max.z-hallBox.min.z;
+            hallClone1.position.z = -(hall.position.z + hallSize);
+            hallClone2.position.z = hall.position.z + hallSize;
+            hallClone3.position.z = -(hall.position.z + 2*hallSize);
+            hallClone4.position.z = hall.position.z + 2*hallSize;
+            scene.add(hallClone1,hallClone2,hallClone3,hallClone4)
+            objects.push(gltf.scene)
+            scene.add(gltf.scene)
+        }
+    )
+    imgLoader = new THREE.TextureLoader();
+    var geometry = new THREE.PlaneGeometry(9.5*2, 14.5*2);
+
+    imgMaterial1 = new THREE.MeshBasicMaterial({
+        map: imgLoader.load(`/static/imgs/${state}.jpg`)}
+    )
+    imgMaterial2 = new THREE.MeshBasicMaterial({
+        map: imgLoader.load(`/static/imgs/${state+1}.jpg`)}
+    )
+    var mesh1 = new THREE.Mesh(geometry, imgMaterial1);
+    var mesh2 = new THREE.Mesh(geometry, imgMaterial2);
+    mesh1.position.set(-57,14.7,-0.5)
+    mesh1.rotation.set(0,Math.PI/2,0)
+    mesh2.position.set(56,14.3,-0.7)
+    mesh2.rotation.set(0,-Math.PI/2,0)
+    scene.add(mesh1,mesh2);
+
+    controls = new PointerLockControls( camera, document.body );
+
+    const blocker = document.getElementById( 'blocker' );
+    const instructions = document.getElementById( 'instructions' );
+
+    instructions.addEventListener( 'click', function () {
+
+        controls.lock();
+        audio = new Audio('/static/models/Hall.mp3');
+        audio.volume = 0.1;
+
+    } );
+
+    controls.addEventListener( 'lock', function () {
+
+        instructions.style.display = 'none';
+        blocker.style.display = 'none';
+        audio.currentTime = currentTime
+        audio.play();
+
+    } );
+
+    controls.addEventListener( 'unlock', function () {
+
+        blocker.style.display = 'block';
+        instructions.style.display = '';
+        audio.pause();
+        currentTime = audio.currentTime
+
+    } );
+
+    scene.add( controls.getObject() );
+
+    const onKeyDown = function ( event ) {
+
+        switch ( event.code ) {
+
+            case 'ArrowUp':
+            case 'KeyW':
+                moveForward = true;
+                break;
+
+            case 'ArrowLeft':
+            case 'KeyA':
+                moveLeft = true;
+                break;
+
+            case 'ArrowDown':
+            case 'KeyS':
+                moveBackward = true;
+                break;
+
+            case 'ArrowRight':
+            case 'KeyD':
+                moveRight = true;
+                break;
+
+            case 'Space':
+                if ( canJump === true ) velocity.y += 200;
+                canJump = false;
+                break;
+
+        }
+
+    };
+
+    const onKeyUp = function ( event ) {
+
+        switch ( event.code ) {
+
+            case 'ArrowUp':
+            case 'KeyW':
+                moveForward = false;
+                break;
+
+            case 'ArrowLeft':
+            case 'KeyA':
+                moveLeft = false;
+                break;
+
+            case 'ArrowDown':
+            case 'KeyS':
+                moveBackward = false;
+                break;
+
+            case 'ArrowRight':
+            case 'KeyD':
+                moveRight = false;
+                break;
+
+        }
+
+    };
+
+    document.addEventListener( 'keydown', onKeyDown );
+    document.addEventListener( 'keyup', onKeyUp );
+
+    raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    renderer.toneMappingExposure = 1.5;
+    document.body.appendChild( renderer.domElement );
+
+    //
+
+    window.addEventListener( 'resize', onWindowResize );
+
+}
+
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+function animate() {
+
+    requestAnimationFrame( animate );
+    if (camera.position.z > 90){
+        camera.position.setZ((-90))
+        state+=2;
+        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state%6)}.jpg`)
+        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state%6+1)}.jpg`)
+    }
+    if (camera.position.z < -90){
+        camera.position.setZ((90))
+        state-=2;
+        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state%6)}.jpg`)
+        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs((state%6)+1)}.jpg`)
+    }
+
+    const time = performance.now();
+
+    if ( controls.isLocked === true ) {
+
+        if (camera.position.x > hallBox.max.x-5){
+            camera.position.x-=0.5
+        }
+        if (camera.position.x < hallBox.min.x+5){
+            camera.position.x+=0.5
+        }
+
+        raycaster.ray.origin.copy( controls.getObject().position );
+        raycaster.ray.origin.y -= 10;
+
+        const intersections = raycaster.intersectObjects( objects, false );
+
+        const onObject = intersections.length > 0;
+
+        const delta = ( time - prevTime ) / 1000;
+
+        velocity.x -= velocity.x * 10.0 * delta;
+        velocity.z -= velocity.z * 10.0 * delta;
+
+        velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+
+        direction.z = Number( moveForward ) - Number( moveBackward );
+        direction.x = Number( moveRight ) - Number( moveLeft );
+        direction.normalize(); // this ensures consistent movements in all directions
+
+        if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
+        if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
+
+        if ( onObject === true ) {
+
+            velocity.y = Math.max( 0, velocity.y );
+            canJump = true;
+
+        }
+
+        controls.moveRight( - velocity.x * delta );
+        controls.moveForward( - velocity.z * delta );
+
+        controls.getObject().position.y += ( velocity.y * delta ); // new behavior
+
+        if ( controls.getObject().position.y < 10 ) {
+
+            velocity.y = 0;
+            controls.getObject().position.y = 10;
+
+            canJump = true;
+
+        }
+
+    }
+
+    prevTime = time;
+
+    renderer.render( scene, camera );
+
+}
+
+</script>
+</html>
