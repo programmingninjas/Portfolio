@@ -114,13 +114,13 @@ function init() {
     scene.fog = new THREE.Fog( 0x47241d,0,360);
 
     const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('static/draco/')
+    dracoLoader.setDecoderPath('/Portfolio/static/draco/')
 
     const gltfLoader = new GLTFLoader()
     gltfLoader.setDRACOLoader(dracoLoader)
 
     gltfLoader.load(
-        'static/models/hall.gltf',
+        '/Portfolio/static/models/hall.gltf',
         (gltf) =>
         {   gltf.scene.scale.set(20,20,20)
             gltf.scene.position.y = 10
@@ -146,10 +146,10 @@ function init() {
     var geometry = new THREE.PlaneGeometry(9.5*2, 14.5*2);
 
     imgMaterial1 = new THREE.MeshBasicMaterial({
-        map: imgLoader.load(`static/imgs/${state}.jpg`)}
+        map: imgLoader.load(`/Portfolio/static/imgs/${state}.jpg`)}
     )
     imgMaterial2 = new THREE.MeshBasicMaterial({
-        map: imgLoader.load(`static/imgs/${state+1}.jpg`)}
+        map: imgLoader.load(`/Portfolio/static/imgs/${state+1}.jpg`)}
     )
     var mesh1 = new THREE.Mesh(geometry, imgMaterial1);
     var mesh2 = new THREE.Mesh(geometry, imgMaterial2);
@@ -167,7 +167,7 @@ function init() {
     instructions.addEventListener( 'click', function () {
 
         controls.lock();
-        audio = new Audio('static/models/Hall.mp3');
+        audio = new Audio('/Portfolio/static/models/Hall.mp3');
         audio.volume = 0.1;
 
     } );
@@ -287,14 +287,14 @@ function animate() {
     if (camera.position.z > 90){
         camera.position.setZ((-90))
         state+=2;
-        imgMaterial1.map = imgLoader.load(`static/imgs/${Math.abs(state%6)}.jpg`)
-        imgMaterial2.map = imgLoader.load(`static/imgs/${Math.abs(state%6+1)}.jpg`)
+        imgMaterial1.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state%6)}.jpg`)
+        imgMaterial2.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state%6+1)}.jpg`)
     }
     if (camera.position.z < -90){
         camera.position.setZ((90))
         state-=2;
-        imgMaterial1.map = imgLoader.load(`static/imgs/${Math.abs(state%6)}.jpg`)
-        imgMaterial2.map = imgLoader.load(`static/imgs/${Math.abs((state%6)+1)}.jpg`)
+        imgMaterial1.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state%6)}.jpg`)
+        imgMaterial2.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs((state%6)+1)}.jpg`)
     }
 
     const time = performance.now();
