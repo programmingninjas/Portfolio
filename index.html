@@ -6,6 +6,7 @@
     <title>Infinite Hallway</title>
 </head>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
     *
 {
     margin: 0;
@@ -15,6 +16,7 @@
 html,
 body
 {
+    font-family: 'PT Sans', sans-serif;
     overflow: hidden;
 }
 
@@ -47,12 +49,30 @@ body
     font-size: 14px;
     cursor: pointer;
 }
+#textHover{
+    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: rgba(78, 46, 4, 0.5);
+    position: absolute;
+    color: rgb(250, 235, 215);
+    bottom: 10vh;
+    font-size: 40px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
 </style>
 <body>
     <div id="blocker">
         <div id="instructions">
-            <h1 style="font-size:60px">WELCOME TO AYAN'S INFINITE HALL OF FAME</h1>
+            <h1 style="font-size:60px;">WELCOME TO AYAN'S</br>INFINITE HALL OF FAME</h1>
         </br>
             <p style="font-size:36px">
                 Click to play
@@ -64,6 +84,7 @@ body
             </p>
         </div>
     </div>
+    <div class="container"><p id="textHover">click to open</p></div>
 </body>
 <script type="module">
 import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
@@ -76,6 +97,20 @@ let camera, scene, renderer, controls;
 const objects = [];
 
 let raycaster;
+let raycaster2;
+let currentIntersect = null;
+let enableRaycast = true;
+
+let urls = {
+    0:"https://bookshub.pythonanywhere.com/",
+    1:"https://devfolio.co/projects/jivanam-4dab",
+    2:"https://programmingninjas.github.io/SPARK/",
+    3:"https://www.youtube.com/watch?v=xvFZjo5PgG0",
+    4:"https://www.linkedin.com/posts/ayankhan3105_sih2022-activity-6969221185796468736-OVr4/",
+    5:"https://www.linkedin.com/posts/ayankhan3105_technology-healthcare-hackathon-activity-7076256497260797952-_2tS",
+    6:"https://www.instagram.com/reel/CcR7X-WA3nK/",
+    7:"https://devfolio.co/projects/rakt-nidhi-e1c5",
+}
 
 let moveForward = false;
 let moveBackward = false;
@@ -86,6 +121,8 @@ let canJump = false;
 let imgLoader;
 let imgMaterial1;
 let imgMaterial2;
+let mesh1,mesh2;
+let imgObjects = [];
 
 let audio = new Audio();
 let currentTime = 0;
@@ -151,8 +188,11 @@ function init() {
     imgMaterial2 = new THREE.MeshBasicMaterial({
         map: imgLoader.load(`/Portfolio/static/imgs/${state+1}.jpg`)}
     )
-    var mesh1 = new THREE.Mesh(geometry, imgMaterial1);
-    var mesh2 = new THREE.Mesh(geometry, imgMaterial2);
+    mesh1 = new THREE.Mesh(geometry, imgMaterial1);
+    mesh2 = new THREE.Mesh(geometry, imgMaterial2);
+    imgObjects.push(mesh1,mesh2)
+    mesh1.userData.url = urls[state]
+    mesh2.userData.url = urls[state+1]
     mesh1.position.set(-57,14.7,-0.5)
     mesh1.rotation.set(0,Math.PI/2,0)
     mesh2.position.set(56,14.3,-0.7)
@@ -178,6 +218,7 @@ function init() {
         blocker.style.display = 'none';
         audio.currentTime = currentTime
         audio.play();
+        enableRaycast = true;
 
     } );
 
@@ -187,6 +228,7 @@ function init() {
         instructions.style.display = '';
         audio.pause();
         currentTime = audio.currentTime
+        enableRaycast = false;
 
     } );
 
@@ -252,11 +294,29 @@ function init() {
         }
 
     };
+    window.addEventListener('click', () =>
+{
+    if(currentIntersect)
+    {   
+        window.location.assign(currentIntersect.object.userData.url);
+    }
+    else{
+        if (!enableRaycast){
+        controls.lock();
+        instructions.style.display = 'none';
+        blocker.style.display = 'none';
+        audio.currentTime = currentTime
+        audio.play();
+        enableRaycast = true;
+    }
+    }
+})
 
     document.addEventListener( 'keydown', onKeyDown );
     document.addEventListener( 'keyup', onKeyUp );
 
     raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+    raycaster2 = new THREE.Raycaster();
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -265,9 +325,6 @@ function init() {
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.toneMappingExposure = 1.5;
     document.body.appendChild( renderer.domElement );
-
-    //
-
     window.addEventListener( 'resize', onWindowResize );
 
 }
@@ -284,17 +341,54 @@ function onWindowResize() {
 function animate() {
 
     requestAnimationFrame( animate );
+
+    if(enableRaycast){
+
+raycaster2.ray.set(camera.position,camera.getWorldDirection(new THREE.Vector3(0,0,1)))
+
+const intersect = raycaster2.intersectObjects(imgObjects);
+if(intersect.length)
+{
+    if(!currentIntersect)
+    {   
+        const textHover = document.getElementById( 'textHover' );
+        textHover.style.display = 'block'
+    }
+
+    currentIntersect = intersect[0]
+    currentIntersect.object.material.color.set(0xfae4a7 );
+}
+else
+{
+    if(currentIntersect)
+    {
+        const textHover = document.getElementById( 'textHover' );
+        textHover.style.display = 'none';
+        currentIntersect.object.material.color.set(0xffffff );
+    }
+    
+    currentIntersect = null
+}
+}
+else{
+currentIntersect = null;
+}
+
     if (camera.position.z > 90){
         camera.position.setZ((-90))
         state+=2;
-        imgMaterial1.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state%6)}.jpg`)
-        imgMaterial2.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state%6+1)}.jpg`)
+        imgMaterial1.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state)%8}.jpg`)
+        mesh1.userData.url = urls[Math.abs(state)%8]
+        imgMaterial2.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state)%8+1}.jpg`)
+        mesh2.userData.url = urls[Math.abs(state)%8+1]
     }
     if (camera.position.z < -90){
         camera.position.setZ((90))
         state-=2;
-        imgMaterial1.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state%6)}.jpg`)
-        imgMaterial2.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs((state%6)+1)}.jpg`)
+        imgMaterial1.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state)%8}.jpg`)
+        mesh1.userData.url = urls[Math.abs(state)%8]
+        imgMaterial2.map = imgLoader.load(`/Portfolio/static/imgs/${Math.abs(state)%8+1}.jpg`)
+        mesh2.userData.url = urls[Math.abs(state)%8+1]
     }
 
     const time = performance.now();
@@ -320,11 +414,11 @@ function animate() {
         velocity.x -= velocity.x * 10.0 * delta;
         velocity.z -= velocity.z * 10.0 * delta;
 
-        velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+        velocity.y -= 9.8 * 100.0 * delta; 
 
         direction.z = Number( moveForward ) - Number( moveBackward );
         direction.x = Number( moveRight ) - Number( moveLeft );
-        direction.normalize(); // this ensures consistent movements in all directions
+        direction.normalize(); 
 
         if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
         if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
@@ -339,7 +433,7 @@ function animate() {
         controls.moveRight( - velocity.x * delta );
         controls.moveForward( - velocity.z * delta );
 
-        controls.getObject().position.y += ( velocity.y * delta ); // new behavior
+        controls.getObject().position.y += ( velocity.y * delta ); 
 
         if ( controls.getObject().position.y < 10 ) {
 
