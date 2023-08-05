@@ -1,6 +1,6 @@
 # Ayan's Hall of Fame 🚀🏆
 
-Welcome to my 3D Portfolio - Hall of Fame! This immersive web application showcases my diverse projects and achievements in a visually captivating way. Step into a world of innovation and creativity, where each element represents a milestone in my tech journey.
+Welcome to my 3D Portfolio. This immersive web application showcases my diverse projects and achievements in a visually captivating way. Step into a world of innovation and creativity, where each element represents a milestone in my tech journey.
 
 ## Introduction
 
