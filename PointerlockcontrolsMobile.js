@@ -2,7 +2,7 @@ import {
 	Euler,
 	EventDispatcher,
 	Vector3
-} from "three/build/three.module";
+} from "https://cdn.skypack.dev/three@0.132.2/build/three.module";
 
 var mobile
 mobile = false;
