@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Hallway</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <script src="https://kit.fontawesome.com/6c2b708adc.js" crossorigin="anonymous"></script>
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
@@ -67,6 +69,37 @@ body
     justify-content: center;
     align-items: center;
   }
+     #controller-forward {
+	position: fixed;
+	bottom: 80px;
+	right: 60px;
+	font-size: 40px;
+	color: antiquewhite;
+}
+
+#controller-right {
+	position: fixed;
+	bottom: 42px;
+	right: 20px;
+	font-size: 40px;
+	color: antiquewhite;
+}
+
+#controller-back {
+	position: fixed;
+	right: 60px;
+	bottom: 2px;
+	font-size: 40px;
+	color: antiquewhite;
+}
+
+#controller-left {
+	position: fixed;
+	bottom: 42px;
+	right: 100px;
+	font-size: 40px;
+	color: antiquewhite;
+}
 
 </style>
 <body>
@@ -85,10 +118,27 @@ body
         </div>
     </div>
     <div class="container"><p id="textHover">click to open</p></div>
+    <div id="arrow">
+			<p id="controller-forward"><i class="fal fa-arrow-circle-up"></i></p>
+			<p id="controller-right"><i class="fal fa-arrow-circle-right"></i></p>
+			<p id="controller-back" ><i class="fal fa-arrow-circle-down"></i></p>
+			<p id="controller-left"><i class="fal fa-arrow-circle-left"></i></p>
+		</div>
 </body>
+<script>
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        document.getElementById("instructions").style.display = "none";
+        document.getElementById("blocker").style.display = "none";
+    }
+    else{
+        document.getElementById("arrow").style.display = "none";
+        
+    }
+</script>
 <script type="module">
 import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
-import { PointerLockControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/PointerLockControls.js';
+import { PointerLockControls } from '/PointerlockcontrolsMobile.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/DRACOLoader.js'
 
@@ -100,7 +150,7 @@ let raycaster;
 let raycaster2;
 let currentIntersect = null;
 let enableRaycast = true;
-
+let audio1 = new Audio('/models/Hall.mp3');
 let urls = {
     0:"https://bookshub.pythonanywhere.com/",
     1:"https://jivanam.pythonanywhere.com/",
@@ -294,6 +344,43 @@ function init() {
         }
 
     };
+    const forward = document.getElementById('controller-forward')
+    forward.addEventListener("touchstart", function () {
+        moveForward = true;
+    })
+    forward.addEventListener("touchend", function () {
+        moveForward = false;
+    })
+    forward.addEventListener("touchmove", function () {
+        moveForward = false;
+    })
+    const right = document.getElementById('controller-right')
+    right.addEventListener("touchstart", function () {
+        moveRight = true;
+    })
+    right.addEventListener('touchend', function () {
+        moveRight = false
+    })
+    const left = document.getElementById('controller-left')
+    left.addEventListener("touchstart", function () {
+        moveLeft = true;
+    })
+    left.addEventListener('touchend', function () {
+        moveLeft = false
+    })
+    const back = document.getElementById('controller-back')
+    back.addEventListener("touchstart", function () {
+        moveBackward = true;
+    })
+    back.addEventListener('touchend', function () {
+        moveBackward = false
+    })
+    document.addEventListener('touchmove',function(){
+        if(audio1.currentTime == 0){
+            audio1.volume = 0.1;
+            audio1.play()
+        }
+    })
     window.addEventListener('click', () =>
 {
     if(currentIntersect)
@@ -393,8 +480,6 @@ currentIntersect = null;
 
     const time = performance.now();
 
-    if ( controls.isLocked === true ) {
-
         if (camera.position.x > hallBox.max.x-5){
             camera.position.x-=0.5
         }
@@ -443,8 +528,6 @@ currentIntersect = null;
             canJump = true;
 
         }
-
-    }
 
     prevTime = time;
 
