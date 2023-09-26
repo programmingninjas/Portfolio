@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Infinite Hallway</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <script src="https://kit.fontawesome.com/6c2b708adc.js" crossorigin="anonymous"></script>
@@ -160,6 +160,8 @@ let urls = {
     5:"https://www.linkedin.com/posts/ayankhan3105_technology-healthcare-hackathon-activity-7076256497260797952-_2tS",
     6:"https://www.instagram.com/reel/CcR7X-WA3nK/",
     7:"https://devfolio.co/projects/rakt-nidhi-e1c5",
+    8:"https://www.linkedin.com/posts/ayankhan3105_aiinnovation-chatgpt-aiadvancements-activity-7108877409700974592-blbi",
+    9:"https://www.linkedin.com/posts/ayankhan3105_certificate-for-mentorship-activity-7112314866857615360-EhSO",
 }
 
 let moveForward = false;
@@ -464,18 +466,18 @@ currentIntersect = null;
     if (camera.position.z > 90){
         camera.position.setZ((-90))
         state+=2;
-        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%8}.jpg`)
-        mesh1.userData.url = urls[Math.abs(state)%8]
-        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%8+1}.jpg`)
-        mesh2.userData.url = urls[Math.abs(state)%8+1]
+        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%10}.jpg`)
+        mesh1.userData.url = urls[Math.abs(state)%10]
+        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%10+1}.jpg`)
+        mesh2.userData.url = urls[Math.abs(state)%10+1]
     }
     if (camera.position.z < -90){
         camera.position.setZ((90))
         state-=2;
-        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%8}.jpg`)
-        mesh1.userData.url = urls[Math.abs(state)%8]
-        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%8+1}.jpg`)
-        mesh2.userData.url = urls[Math.abs(state)%8+1]
+        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%10}.jpg`)
+        mesh1.userData.url = urls[Math.abs(state)%10]
+        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%10+1}.jpg`)
+        mesh2.userData.url = urls[Math.abs(state)%10+1]
     }
 
     const time = performance.now();
