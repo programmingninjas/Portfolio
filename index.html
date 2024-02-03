@@ -153,7 +153,7 @@ let audio1 = new Audio('/models/Hall.mp3');
 let urls = {
     0:"https://bookshub.pythonanywhere.com/",
     1:"https://jivanam.pythonanywhere.com/",
-    2:"https://programmingninjas.github.io/SPARK/",
+    2:"https://spark-backend-six.vercel.app/",
     3:"https://www.youtube.com/watch?v=xvFZjo5PgG0",
     4:"https://www.linkedin.com/posts/ayankhan3105_sih2022-activity-6969221185796468736-OVr4/",
     5:"https://www.linkedin.com/posts/ayankhan3105_technology-healthcare-hackathon-activity-7076256497260797952-_2tS",
@@ -161,6 +161,10 @@ let urls = {
     7:"https://devfolio.co/projects/rakt-nidhi-e1c5",
     8:"https://www.linkedin.com/posts/ayankhan3105_aiinnovation-chatgpt-aiadvancements-activity-7108877409700974592-blbi",
     9:"https://www.linkedin.com/posts/ayankhan3105_certificate-for-mentorship-activity-7112314866857615360-EhSO",
+    10:"https://www.linkedin.com/posts/ayankhan3105_generativeai-aiinnovation-zeroshot-activity-7110827693700493312-eqX0",
+    11:"https://solve-sphere.devfolio.co/",
+    12:"https://www.linkedin.com/posts/ayankhan3105_pydelhitalk-autonomousagents-techexploration-activity-7154529315538243584-VSM0",
+    13:"https://hom-frontend.vercel.app/",
 }
 
 let moveForward = false;
@@ -465,18 +469,18 @@ currentIntersect = null;
     if (camera.position.z > 90){
         camera.position.setZ((-90))
         state+=2;
-        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%10}.jpg`)
-        mesh1.userData.url = urls[Math.abs(state)%10]
-        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%10+1}.jpg`)
-        mesh2.userData.url = urls[Math.abs(state)%10+1]
+        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%14}.jpg`)
+        mesh1.userData.url = urls[Math.abs(state)%14]
+        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%14+1}.jpg`)
+        mesh2.userData.url = urls[Math.abs(state)%14+1]
     }
     if (camera.position.z < -90){
         camera.position.setZ((90))
         state-=2;
-        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%10}.jpg`)
-        mesh1.userData.url = urls[Math.abs(state)%10]
-        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%10+1}.jpg`)
-        mesh2.userData.url = urls[Math.abs(state)%10+1]
+        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%14}.jpg`)
+        mesh1.userData.url = urls[Math.abs(state)%14]
+        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%14+1}.jpg`)
+        mesh2.userData.url = urls[Math.abs(state)%14+1]
     }
 
     const time = performance.now();
