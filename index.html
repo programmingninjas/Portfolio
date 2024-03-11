@@ -48,7 +48,7 @@ body
     align-items: center;
 
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
 }
 #textHover{
@@ -160,7 +160,7 @@ let urls = {
     6:"https://www.instagram.com/reel/CcR7X-WA3nK/",
     7:"https://devfolio.co/projects/rakt-nidhi-e1c5",
     8:"https://www.linkedin.com/posts/ayankhan3105_aiinnovation-chatgpt-aiadvancements-activity-7108877409700974592-blbi",
-    9:"https://www.linkedin.com/posts/ayankhan3105_certificate-for-mentorship-activity-7112314866857615360-EhSO",
+    9:"https://www.linkedin.com/posts/ayankhan3105_certificate-for-mentorship-activity-7112316866857615360-EhSO",
     10:"https://www.linkedin.com/posts/ayankhan3105_generativeai-aiinnovation-zeroshot-activity-7110827693700493312-eqX0",
     11:"https://solve-sphere.devfolio.co/",
     12:"https://www.linkedin.com/posts/ayankhan3105_pydelhitalk-autonomousagents-techexploration-activity-7154529315538243584-VSM0",
@@ -237,7 +237,7 @@ function init() {
         }
     )
     imgLoader = new THREE.TextureLoader();
-    var geometry = new THREE.PlaneGeometry(9.5*2, 14.5*2);
+    var geometry = new THREE.PlaneGeometry(9.5*2, 16.5*2);
 
     imgMaterial1 = new THREE.MeshBasicMaterial({
         map: imgLoader.load(`/static/imgs/${state}.jpg`)}
@@ -250,9 +250,9 @@ function init() {
     imgObjects.push(mesh1,mesh2)
     mesh1.userData.url = urls[state]
     mesh2.userData.url = urls[state+1]
-    mesh1.position.set(-57,14.7,-0.5)
+    mesh1.position.set(-57,16.7,-0.5)
     mesh1.rotation.set(0,Math.PI/2,0)
-    mesh2.position.set(56,14.3,-0.7)
+    mesh2.position.set(56,16.3,-0.7)
     mesh2.rotation.set(0,-Math.PI/2,0)
     scene.add(mesh1,mesh2);
 
@@ -471,18 +471,18 @@ currentIntersect = null;
     if (camera.position.z > 90){
         camera.position.setZ((-90))
         state+=2;
-        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%14}.jpg`)
-        mesh1.userData.url = urls[Math.abs(state)%14]
-        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%14+1}.jpg`)
-        mesh2.userData.url = urls[Math.abs(state)%14+1]
+        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%16}.jpg`)
+        mesh1.userData.url = urls[Math.abs(state)%16]
+        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%16+1}.jpg`)
+        mesh2.userData.url = urls[Math.abs(state)%16+1]
     }
     if (camera.position.z < -90){
         camera.position.setZ((90))
         state-=2;
-        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%14}.jpg`)
-        mesh1.userData.url = urls[Math.abs(state)%14]
-        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%14+1}.jpg`)
-        mesh2.userData.url = urls[Math.abs(state)%14+1]
+        imgMaterial1.map = imgLoader.load(`/static/imgs/${Math.abs(state)%16}.jpg`)
+        mesh1.userData.url = urls[Math.abs(state)%16]
+        imgMaterial2.map = imgLoader.load(`/static/imgs/${Math.abs(state)%16+1}.jpg`)
+        mesh2.userData.url = urls[Math.abs(state)%16+1]
     }
 
     const time = performance.now();
