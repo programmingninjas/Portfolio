@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -9,121 +10,123 @@
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
-    *
-{
-    margin: 0;
-    padding: 0;
-}
 
-html,
-body
-{
-    font-family: 'PT Sans', sans-serif;
-    overflow: hidden;
-}
+    * {
+        margin: 0;
+        padding: 0;
+    }
 
-.webgl
-{
-    position: fixed;
-    top: 0;
-    left: 0;
-    outline: none;
-}
+    html,
+    body {
+        font-family: 'PT Sans', sans-serif;
+        overflow: hidden;
+    }
 
-#blocker {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-}
+    .webgl {
+        position: fixed;
+        top: 0;
+        left: 0;
+        outline: none;
+    }
 
-#instructions {
-    width: 100%;
-    height: 100%;
-    color: antiquewhite;
+    #blocker {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    #instructions {
+        width: 100%;
+        height: 100%;
+        color: antiquewhite;
 
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
-}
-#textHover{
-    border-radius: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background-color: rgba(78, 46, 4, 0.5);
-    position: absolute;
-    color: rgb(250, 235, 215);
-    bottom: 10vh;
-    font-size: 40px;
-}
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-     #controller-forward {
-	position: fixed;
-	bottom: 80px;
-	right: 60px;
-	font-size: 40px;
-	color: antiquewhite;
-}
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+    }
 
-#controller-right {
-	position: fixed;
-	bottom: 42px;
-	right: 20px;
-	font-size: 40px;
-	color: antiquewhite;
-}
+    #textHover {
+        border-radius: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: rgba(78, 46, 4, 0.5);
+        position: absolute;
+        color: rgb(250, 235, 215);
+        bottom: 10vh;
+        font-size: 40px;
+    }
 
-#controller-back {
-	position: fixed;
-	right: 60px;
-	bottom: 2px;
-	font-size: 40px;
-	color: antiquewhite;
-}
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-#controller-left {
-	position: fixed;
-	bottom: 42px;
-	right: 100px;
-	font-size: 40px;
-	color: antiquewhite;
-}
+    #controller-forward {
+        position: fixed;
+        bottom: 80px;
+        right: 60px;
+        font-size: 40px;
+        color: antiquewhite;
+    }
 
+    #controller-right {
+        position: fixed;
+        bottom: 42px;
+        right: 20px;
+        font-size: 40px;
+        color: antiquewhite;
+    }
+
+    #controller-back {
+        position: fixed;
+        right: 60px;
+        bottom: 2px;
+        font-size: 40px;
+        color: antiquewhite;
+    }
+
+    #controller-left {
+        position: fixed;
+        bottom: 42px;
+        right: 100px;
+        font-size: 40px;
+        color: antiquewhite;
+    }
 </style>
+
 <body>
     <div id="blocker">
         <div id="instructions">
             <h1 style="font-size:60px;">WELCOME TO AYAN'S</br>INFINITE HALL OF FAME</h1>
-        </br>
+            </br>
             <p style="font-size:36px">
                 Click to play
             </p>
             <p>
-                Move: WASD<br/>
-                Jump: SPACE<br/>
+                Move: WASD<br />
+                Jump: SPACE<br />
                 Look: MOUSE
             </p>
         </div>
     </div>
-    <div class="container"><p id="textHover">click to open</p></div>
+    <div class="container">
+        <p id="textHover">click to open</p>
+    </div>
     <div id="arrow">
-			<p id="controller-forward"><i class="fa-solid fa-circle-arrow-up" style="color: #ffffff;"></i></p>
-			<p id="controller-right"><i class="fa-solid fa-circle-arrow-right" style="color: #ffffff;"></i></p>
-			<p id="controller-back" ><i class="fa-solid fa-circle-arrow-down" style="color: #ffffff;"></i></p>
-			<p id="controller-left"><i class="fa-solid fa-circle-arrow-left" style="color: #ffffff;"></i></p>
-		</div>
+        <p id="controller-forward"><i class="fa-solid fa-circle-arrow-up" style="color: #ffffff;"></i></p>
+        <p id="controller-right"><i class="fa-solid fa-circle-arrow-right" style="color: #ffffff;"></i></p>
+        <p id="controller-back"><i class="fa-solid fa-circle-arrow-down" style="color: #ffffff;"></i></p>
+        <p id="controller-left"><i class="fa-solid fa-circle-arrow-left" style="color: #ffffff;"></i></p>
+    </div>
 </body>
 <script>
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -131,404 +134,406 @@ body
         document.getElementById("instructions").style.display = "none";
         document.getElementById("blocker").style.display = "none";
     }
-    else{
-        document.getElementById("arrow").style.display = "none";  
+    else {
+        document.getElementById("arrow").style.display = "none";
     }
 </script>
 <script type="module">
-import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
-import { PointerLockControls } from '/PointerlockcontrolsMobile.js';
-import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js'
-import { DRACOLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/DRACOLoader.js'
+    import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
+    import { PointerLockControls } from '/PointerlockcontrolsMobile.js';
+    import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js'
+    import { DRACOLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/DRACOLoader.js'
 
-let camera, scene, renderer, controls;
+    let camera, scene, renderer, controls;
 
-const objects = [];
+    const objects = [];
 
-let raycaster;
-let raycaster2;
-let currentIntersect = null;
-let enableRaycast = true;
-let audio1 = new Audio('/models/Hall.mp3');
-let urls = {
-    0:"https://bookshub.pythonanywhere.com/",
-    1:"https://jivanam.pythonanywhere.com/",
-    2:"https://spark-backend-six.vercel.app/",
-    3:"https://www.youtube.com/watch?v=xvFZjo5PgG0",
-    4:"https://www.linkedin.com/posts/ayankhan3105_sih2022-activity-6969221185796468736-OVr4/",
-    5:"https://www.linkedin.com/posts/ayankhan3105_technology-healthcare-hackathon-activity-7076256497260797952-_2tS",
-    6:"https://www.instagram.com/reel/CcR7X-WA3nK/",
-    7:"https://devfolio.co/projects/rakt-nidhi-e1c5",
-    8:"https://www.linkedin.com/posts/ayankhan3105_aiinnovation-chatgpt-aiadvancements-activity-7108877409700974592-blbi",
-    9:"https://www.linkedin.com/posts/ayankhan3105_certificate-for-mentorship-activity-7112314866857615360-EhSO",
-    10:"https://www.linkedin.com/posts/ayankhan3105_generativeai-aiinnovation-zeroshot-activity-7110827693700493312-eqX0",
-    11:"https://solve-sphere.devfolio.co/",
-    12:"https://www.linkedin.com/posts/ayankhan3105_pydelhitalk-autonomousagents-techexploration-activity-7154529315538243584-VSM0",
-    13:"https://hom-frontend.vercel.app/",
-    14:"https://www.linkedin.com/posts/ayankhan3105_another-year-another-win-thrilled-to-share-activity-7171500568312557570-848d?utm_source=share&utm_medium=member_desktop",
-    15:"https://github.com/programmingninjas/quectoLink"
-}
+    let raycaster;
+    let raycaster2;
+    let currentIntersect = null;
+    let enableRaycast = true;
+    let audio1 = new Audio('/models/Hall.mp3');
+    let urls = {
+        0: "https://www.instagram.com/programmingninjas/p/CXFxAFeFYB9/?img_index=2",
+        1: "https://www.instagram.com/reel/CcR7X-WA3nK/",
+        2: "https://devfolio.co/projects/rakt-nidhi-e1c5",
+        3: "https://www.linkedin.com/posts/ayankhan3105_sih2022-activity-6969221185796468736-OVr4/",
+        4: "https://www.canva.com/design/DAFNWJlAQEY/0f7d4CjWwlmBY4Na3yg5sw/view?utm_content=DAFNWJlAQEY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc421ef908b",
+        5: "https://www.youtube.com/watch?v=-AGY7pEh3Mw",
+        6: "https://www.linkedin.com/posts/ayankhan3105_technology-healthcare-hackathon-activity-7076256497260797952-_2tS",
+        7: "https://www.linkedin.com/posts/ayankhan3105_aiinnovation-chatgpt-aiadvancements-activity-7108877409700974592-blbi",
+        8: "https://www.linkedin.com/posts/ayankhan3105_certificate-for-mentorship-activity-7112314866857615360-EhSO",
+        9: "https://www.linkedin.com/posts/ayankhan3105_generativeai-aiinnovation-zeroshot-activity-7110827693700493312-eqX0",
+        10: "https://solve-sphere.devfolio.co/",
+        11: "https://www.linkedin.com/posts/ayankhan3105_pydelhitalk-autonomousagents-techexploration-activity-7154529315538243584-VSM0",
+        12: "https://hom-frontend.vercel.app/",
+        13: "https://www.linkedin.com/posts/ayankhan3105_another-year-another-win-thrilled-to-share-activity-7171500568312557570-848d?utm_source=share&utm_medium=member_desktop",
+        14: "https://github.com/programmingninjas/quectoLink",
+        15: "https://www.linkedin.com/posts/ayankhan3105_certificate-activity-7202579085577867264-kIR-?utm_source=share&utm_medium=member_desktop&rcm=ACoAADcNTVQBzocM8m5udKc3crMvGf9cRcLVUI4",
+        16: "https://drive.google.com/drive/folders/1nVXqjQQdzh-xMdcLA9Smci9ZgZ1PBPYe?usp=sharing",
+        17: "https://acecloud.ai/cloud/kubernetes/",
+        18: "https://www.zabbix.com/",
+        19: "https://acecloud.ai/cloud/kubernetes/container-as-a-service/"
+    }
 
-let moveForward = false;
-let moveBackward = false;
-let moveLeft = false;
-let moveRight = false;
-let canJump = false;
+    let moveForward = false;
+    let moveBackward = false;
+    let moveLeft = false;
+    let moveRight = false;
+    let canJump = false;
 
-let imgLoader;
-let imgMaterial1;
-let imgMaterial2;
-let mesh1,mesh2;
-let imgObjects = [];
+    let imgLoader;
+    let imgMaterial1;
+    let imgMaterial2;
+    let mesh1, mesh2;
+    let imgObjects = [];
 
-let audio = new Audio();
-let currentTime = 0;
-let hall = new THREE.Object3D();
-let hallBox = new THREE.Box3();
-let state = 0;
-let hallClone1 = new THREE.Object3D();
-let hallClone2 = new THREE.Object3D();
-let hallClone3 = new THREE.Object3D();
-let hallClone4 = new THREE.Object3D();
-let hallSize = 0;
+    let audio = new Audio();
+    let currentTime = 0;
+    let hall = new THREE.Object3D();
+    let hallBox = new THREE.Box3();
+    let state = 0;
+    let hallClone1 = new THREE.Object3D();
+    let hallClone2 = new THREE.Object3D();
+    let hallClone3 = new THREE.Object3D();
+    let hallClone4 = new THREE.Object3D();
+    let hallSize = 0;
 
-let prevTime = performance.now();
-const velocity = new THREE.Vector3();
-const direction = new THREE.Vector3();
+    let prevTime = performance.now();
+    const velocity = new THREE.Vector3();
+    const direction = new THREE.Vector3();
 
-init();
-animate();
+    init();
+    animate();
 
-function init() {
+    function init() {
 
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight);
-    camera.position.z = 90;
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0x47241d );
-    scene.fog = new THREE.Fog( 0x47241d,0,360);
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight);
+        camera.position.z = 90;
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x47241d);
+        scene.fog = new THREE.Fog(0x47241d, 0, 360);
 
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('/static/draco/')
+        const dracoLoader = new DRACOLoader()
+        dracoLoader.setDecoderPath('/static/draco/')
 
-    const gltfLoader = new GLTFLoader()
-    gltfLoader.setDRACOLoader(dracoLoader)
+        const gltfLoader = new GLTFLoader()
+        gltfLoader.setDRACOLoader(dracoLoader)
 
-    gltfLoader.load(
-        'static/models/hall.gltf',
-        (gltf) =>
-        {   gltf.scene.scale.set(20,20,20)
-            gltf.scene.position.y = 10
-            hall = gltf.scene
-            hallSize = 0;
-        
-            hallClone1 = hall.clone();
-            hallClone2 = hall.clone();
-            hallClone3 = hall.clone();
-            hallClone4 = hall.clone();
-            hallBox = new THREE.Box3().setFromObject(hall);
-            hallSize = hallBox.max.z-hallBox.min.z;
-            hallClone1.position.z = -(hall.position.z + hallSize);
-            hallClone2.position.z = hall.position.z + hallSize;
-            hallClone3.position.z = -(hall.position.z + 2*hallSize);
-            hallClone4.position.z = hall.position.z + 2*hallSize;
-            scene.add(hallClone1,hallClone2,hallClone3,hallClone4)
-            objects.push(gltf.scene)
-            scene.add(gltf.scene)
+        gltfLoader.load(
+            'static/models/hall.gltf',
+            (gltf) => {
+                gltf.scene.scale.set(20, 20, 20)
+                gltf.scene.position.y = 10
+                hall = gltf.scene
+                hallSize = 0;
+
+                hallClone1 = hall.clone();
+                hallClone2 = hall.clone();
+                hallClone3 = hall.clone();
+                hallClone4 = hall.clone();
+                hallBox = new THREE.Box3().setFromObject(hall);
+                hallSize = hallBox.max.z - hallBox.min.z;
+                hallClone1.position.z = -(hall.position.z + hallSize);
+                hallClone2.position.z = hall.position.z + hallSize;
+                hallClone3.position.z = -(hall.position.z + 2 * hallSize);
+                hallClone4.position.z = hall.position.z + 2 * hallSize;
+                scene.add(hallClone1, hallClone2, hallClone3, hallClone4)
+                objects.push(gltf.scene)
+                scene.add(gltf.scene)
+            }
+        )
+        imgLoader = new THREE.TextureLoader();
+        var geometry = new THREE.PlaneGeometry(9.5 * 2, 14.5 * 2);
+
+        imgMaterial1 = new THREE.MeshBasicMaterial({
+            map: imgLoader.load(`/static/imgs/${state}.jpg`)
         }
-    )
-    imgLoader = new THREE.TextureLoader();
-    var geometry = new THREE.PlaneGeometry(9.5*2, 14.5*2);
-
-    imgMaterial1 = new THREE.MeshBasicMaterial({
-        map: imgLoader.load(`/static/imgs/${state}.jpg`)}
-    )
-    imgMaterial2 = new THREE.MeshBasicMaterial({
-        map: imgLoader.load(`/static/imgs/${state+1}.jpg`)}
-    )
-    mesh1 = new THREE.Mesh(geometry, imgMaterial1);
-    mesh2 = new THREE.Mesh(geometry, imgMaterial2);
-    imgObjects.push(mesh1,mesh2)
-    mesh1.userData.url = urls[state]
-    mesh2.userData.url = urls[state+1]
-    mesh1.position.set(-57,14.7,-0.5)
-    mesh1.rotation.set(0,Math.PI/2,0)
-    mesh2.position.set(56,14.3,-0.7)
-    mesh2.rotation.set(0,-Math.PI/2,0)
-    scene.add(mesh1,mesh2);
-
-    controls = new PointerLockControls( camera, document.body );
-
-    const blocker = document.getElementById( 'blocker' );
-    const instructions = document.getElementById( 'instructions' );
-
-    instructions.addEventListener( 'click', function () {
-
-        controls.lock();
-        audio = new Audio('/static/models/Hall.mp3');
-        audio.volume = 0.1;
-
-    } );
-
-    controls.addEventListener( 'lock', function () {
-
-        instructions.style.display = 'none';
-        blocker.style.display = 'none';
-        audio.currentTime = currentTime
-        audio.play();
-        enableRaycast = true;
-
-    } );
-
-    controls.addEventListener( 'unlock', function () {
-
-        blocker.style.display = 'block';
-        instructions.style.display = '';
-        audio.pause();
-        currentTime = audio.currentTime
-        enableRaycast = false;
-
-    } );
-
-    scene.add( controls.getObject() );
-
-    const onKeyDown = function ( event ) {
-
-        switch ( event.code ) {
-
-            case 'ArrowUp':
-            case 'KeyW':
-                moveForward = true;
-                break;
-
-            case 'ArrowLeft':
-            case 'KeyA':
-                moveLeft = true;
-                break;
-
-            case 'ArrowDown':
-            case 'KeyS':
-                moveBackward = true;
-                break;
-
-            case 'ArrowRight':
-            case 'KeyD':
-                moveRight = true;
-                break;
-
-            case 'Space':
-                if ( canJump === true ) velocity.y += 200;
-                canJump = false;
-                break;
-
+        )
+        imgMaterial2 = new THREE.MeshBasicMaterial({
+            map: imgLoader.load(`/static/imgs/${state + 1}.jpg`)
         }
+        )
+        mesh1 = new THREE.Mesh(geometry, imgMaterial1);
+        mesh2 = new THREE.Mesh(geometry, imgMaterial2);
+        imgObjects.push(mesh1, mesh2)
+        mesh1.userData.url = urls[state]
+        mesh2.userData.url = urls[state + 1]
+        mesh1.position.set(-57, 14.7, -0.5)
+        mesh1.rotation.set(0, Math.PI / 2, 0)
+        mesh2.position.set(56, 14.3, -0.7)
+        mesh2.rotation.set(0, -Math.PI / 2, 0)
+        scene.add(mesh1, mesh2);
 
-    };
+        controls = new PointerLockControls(camera, document.body);
 
-    const onKeyUp = function ( event ) {
+        const blocker = document.getElementById('blocker');
+        const instructions = document.getElementById('instructions');
 
-        switch ( event.code ) {
+        instructions.addEventListener('click', function () {
 
-            case 'ArrowUp':
-            case 'KeyW':
-                moveForward = false;
-                break;
+            controls.lock();
+            audio = new Audio('/static/models/Hall.mp3');
+            audio.volume = 0.1;
 
-            case 'ArrowLeft':
-            case 'KeyA':
-                moveLeft = false;
-                break;
+        });
 
-            case 'ArrowDown':
-            case 'KeyS':
-                moveBackward = false;
-                break;
+        controls.addEventListener('lock', function () {
 
-            case 'ArrowRight':
-            case 'KeyD':
-                moveRight = false;
-                break;
+            instructions.style.display = 'none';
+            blocker.style.display = 'none';
+            audio.currentTime = currentTime
+            audio.play();
+            enableRaycast = true;
 
+        });
+
+        controls.addEventListener('unlock', function () {
+
+            blocker.style.display = 'block';
+            instructions.style.display = '';
+            audio.pause();
+            currentTime = audio.currentTime
+            enableRaycast = false;
+
+        });
+
+        scene.add(controls.getObject());
+
+        const onKeyDown = function (event) {
+
+            switch (event.code) {
+
+                case 'ArrowUp':
+                case 'KeyW':
+                    moveForward = true;
+                    break;
+
+                case 'ArrowLeft':
+                case 'KeyA':
+                    moveLeft = true;
+                    break;
+
+                case 'ArrowDown':
+                case 'KeyS':
+                    moveBackward = true;
+                    break;
+
+                case 'ArrowRight':
+                case 'KeyD':
+                    moveRight = true;
+                    break;
+
+                case 'Space':
+                    if (canJump === true) velocity.y += 200;
+                    canJump = false;
+                    break;
+
+            }
+
+        };
+
+        const onKeyUp = function (event) {
+
+            switch (event.code) {
+
+                case 'ArrowUp':
+                case 'KeyW':
+                    moveForward = false;
+                    break;
+
+                case 'ArrowLeft':
+                case 'KeyA':
+                    moveLeft = false;
+                    break;
+
+                case 'ArrowDown':
+                case 'KeyS':
+                    moveBackward = false;
+                    break;
+
+                case 'ArrowRight':
+                case 'KeyD':
+                    moveRight = false;
+                    break;
+
+            }
+
+        };
+        const forward = document.getElementById('controller-forward')
+        forward.addEventListener("touchstart", function () {
+            moveForward = true;
+        })
+        forward.addEventListener("touchend", function () {
+            moveForward = false;
+        })
+        forward.addEventListener("touchmove", function () {
+            moveForward = false;
+        })
+        const right = document.getElementById('controller-right')
+        right.addEventListener("touchstart", function () {
+            moveRight = true;
+        })
+        right.addEventListener('touchend', function () {
+            moveRight = false
+        })
+        const left = document.getElementById('controller-left')
+        left.addEventListener("touchstart", function () {
+            moveLeft = true;
+        })
+        left.addEventListener('touchend', function () {
+            moveLeft = false
+        })
+        const back = document.getElementById('controller-back')
+        back.addEventListener("touchstart", function () {
+            moveBackward = true;
+        })
+        back.addEventListener('touchend', function () {
+            moveBackward = false
+        })
+        document.addEventListener('touchmove', function () {
+            if (audio1.currentTime == 0) {
+                audio1.volume = 0.1;
+                audio1.play()
+            }
+        })
+        window.addEventListener('click', () => {
+            if (currentIntersect) {
+                window.open(currentIntersect.object.userData.url, '_blank');
+            }
+            else {
+                if (!enableRaycast) {
+                    controls.lock();
+                    instructions.style.display = 'none';
+                    blocker.style.display = 'none';
+                    audio.currentTime = currentTime
+                    audio.play();
+                    enableRaycast = true;
+                }
+            }
+        })
+
+        document.addEventListener('keydown', onKeyDown);
+        document.addEventListener('keyup', onKeyUp);
+
+        raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
+        raycaster2 = new THREE.Raycaster();
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.toneMapping = THREE.ReinhardToneMapping;
+        renderer.toneMappingExposure = 1.5;
+        document.body.appendChild(renderer.domElement);
+        window.addEventListener('resize', onWindowResize);
+
+    }
+
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+    }
+
+    function animate() {
+
+        requestAnimationFrame(animate);
+
+        if (enableRaycast) {
+
+            raycaster2.ray.set(camera.position, camera.getWorldDirection(new THREE.Vector3(0, 0, 1)))
+
+            const intersect = raycaster2.intersectObjects(imgObjects);
+            if (intersect.length) {
+                if (!currentIntersect) {
+                    const textHover = document.getElementById('textHover');
+                    textHover.style.display = 'block'
+                }
+
+                currentIntersect = intersect[0]
+                currentIntersect.object.material.color.set(0xfae4a7);
+            }
+            else {
+                if (currentIntersect) {
+                    const textHover = document.getElementById('textHover');
+                    textHover.style.display = 'none';
+                    currentIntersect.object.material.color.set(0xffffff);
+                }
+
+                currentIntersect = null
+            }
         }
-
-    };
-    const forward = document.getElementById('controller-forward')
-    forward.addEventListener("touchstart", function () {
-        moveForward = true;
-    })
-    forward.addEventListener("touchend", function () {
-        moveForward = false;
-    })
-    forward.addEventListener("touchmove", function () {
-        moveForward = false;
-    })
-    const right = document.getElementById('controller-right')
-    right.addEventListener("touchstart", function () {
-        moveRight = true;
-    })
-    right.addEventListener('touchend', function () {
-        moveRight = false
-    })
-    const left = document.getElementById('controller-left')
-    left.addEventListener("touchstart", function () {
-        moveLeft = true;
-    })
-    left.addEventListener('touchend', function () {
-        moveLeft = false
-    })
-    const back = document.getElementById('controller-back')
-    back.addEventListener("touchstart", function () {
-        moveBackward = true;
-    })
-    back.addEventListener('touchend', function () {
-        moveBackward = false
-    })
-    document.addEventListener('touchmove',function(){
-        if(audio1.currentTime == 0){
-            audio1.volume = 0.1;
-            audio1.play()
-        }
-    })
-    window.addEventListener('click', () =>
-{
-    if(currentIntersect)
-    {   
-        window.location.assign(currentIntersect.object.userData.url);
-    }
-    else{
-        if (!enableRaycast){
-        controls.lock();
-        instructions.style.display = 'none';
-        blocker.style.display = 'none';
-        audio.currentTime = currentTime
-        audio.play();
-        enableRaycast = true;
-    }
-    }
-})
-
-    document.addEventListener( 'keydown', onKeyDown );
-    document.addEventListener( 'keyup', onKeyUp );
-
-    raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
-    raycaster2 = new THREE.Raycaster();
-
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    renderer.toneMapping = THREE.ReinhardToneMapping;
-    renderer.toneMappingExposure = 1.5;
-    document.body.appendChild( renderer.domElement );
-    window.addEventListener( 'resize', onWindowResize );
-
-}
-
-function onWindowResize() {
-
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize( window.innerWidth, window.innerHeight );
-
-}
-
-function animate() {
-
-    requestAnimationFrame( animate );
-
-    if(enableRaycast){
-
-raycaster2.ray.set(camera.position,camera.getWorldDirection(new THREE.Vector3(0,0,1)))
-
-const intersect = raycaster2.intersectObjects(imgObjects);
-if(intersect.length)
-{
-    if(!currentIntersect)
-    {   
-        const textHover = document.getElementById( 'textHover' );
-        textHover.style.display = 'block'
-    }
-
-    currentIntersect = intersect[0]
-    currentIntersect.object.material.color.set(0xfae4a7 );
-}
-else
-{
-    if(currentIntersect)
-    {
-        const textHover = document.getElementById( 'textHover' );
-        textHover.style.display = 'none';
-        currentIntersect.object.material.color.set(0xffffff );
-    }
-    
-    currentIntersect = null
-}
-}
-else{
-currentIntersect = null;
-}
-    const mod_val = Math.abs(state)%16;
-
-    if (camera.position.z > 90){
-        camera.position.setZ((-90))
-        state+=2;
-        imgMaterial1.map = imgLoader.load(`/static/imgs/${mod_val}.jpg`)
-        mesh1.userData.url = urls[mod_val]
-        imgMaterial2.map = imgLoader.load(`/static/imgs/${mod_val+1}.jpg`)
-        mesh2.userData.url = urls[mod_val+1]
-    }
-    if (camera.position.z < -90){
-        camera.position.setZ((90))
-        state-=2;
-        imgMaterial1.map = imgLoader.load(`/static/imgs/${mod_val}.jpg`)
-        mesh1.userData.url = urls[mod_val]
-        imgMaterial2.map = imgLoader.load(`/static/imgs/${mod_val+1}.jpg`)
-        mesh2.userData.url = urls[mod_val+1]
-    }
-
-    const time = performance.now();
-
-        if (camera.position.x > hallBox.max.x-5){
-            camera.position.x-=0.5
-        }
-        if (camera.position.x < hallBox.min.x+5){
-            camera.position.x+=0.5
+        else {
+            currentIntersect = null;
         }
 
-        raycaster.ray.origin.copy( controls.getObject().position );
+
+        if (camera.position.z > 90) {
+            camera.position.setZ((-90))
+            state -= 2;
+            const mod_val = ((state % 20) + 20) % 20;
+            imgMaterial1.map = imgLoader.load(`/static/imgs/${mod_val}.jpg`)
+            mesh1.userData.url = urls[mod_val]
+            imgMaterial2.map = imgLoader.load(`/static/imgs/${(mod_val + 1) % 20}.jpg`)
+            mesh2.userData.url = urls[(mod_val + 1) % 20]
+        }
+        if (camera.position.z < -90) {
+            camera.position.setZ((90))
+            state += 2;
+            const mod_val = ((state % 20) + 20) % 20;
+            imgMaterial1.map = imgLoader.load(`/static/imgs/${mod_val}.jpg`)
+            mesh1.userData.url = urls[mod_val]
+            imgMaterial2.map = imgLoader.load(`/static/imgs/${(mod_val + 1) % 20}.jpg`)
+            mesh2.userData.url = urls[(mod_val + 1) % 20]
+        }
+
+        const time = performance.now();
+
+        if (camera.position.x > hallBox.max.x - 5) {
+            camera.position.x -= 0.5
+        }
+        if (camera.position.x < hallBox.min.x + 5) {
+            camera.position.x += 0.5
+        }
+
+        raycaster.ray.origin.copy(controls.getObject().position);
         raycaster.ray.origin.y -= 10;
 
-        const intersections = raycaster.intersectObjects( objects, false );
+        const intersections = raycaster.intersectObjects(objects, false);
 
         const onObject = intersections.length > 0;
 
-        const delta = ( time - prevTime ) / 1000;
+        const delta = (time - prevTime) / 1000;
 
         velocity.x -= velocity.x * 10.0 * delta;
         velocity.z -= velocity.z * 10.0 * delta;
 
-        velocity.y -= 9.8 * 100.0 * delta; 
+        velocity.y -= 9.8 * 100.0 * delta;
 
-        direction.z = Number( moveForward ) - Number( moveBackward );
-        direction.x = Number( moveRight ) - Number( moveLeft );
-        direction.normalize(); 
+        direction.z = Number(moveForward) - Number(moveBackward);
+        direction.x = Number(moveRight) - Number(moveLeft);
+        direction.normalize();
 
-        if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
-        if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
+        if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
+        if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
 
-        if ( onObject === true ) {
+        if (onObject === true) {
 
-            velocity.y = Math.max( 0, velocity.y );
+            velocity.y = Math.max(0, velocity.y);
             canJump = true;
 
         }
 
-        controls.moveRight( - velocity.x * delta );
-        controls.moveForward( - velocity.z * delta );
+        controls.moveRight(- velocity.x * delta);
+        controls.moveForward(- velocity.z * delta);
 
-        controls.getObject().position.y += ( velocity.y * delta ); 
+        controls.getObject().position.y += (velocity.y * delta);
 
-        if ( controls.getObject().position.y < 10 ) {
+        if (controls.getObject().position.y < 10) {
 
             velocity.y = 0;
             controls.getObject().position.y = 10;
@@ -537,11 +542,12 @@ currentIntersect = null;
 
         }
 
-    prevTime = time;
+        prevTime = time;
 
-    renderer.render( scene, camera );
+        renderer.render(scene, camera);
 
-}
+    }
 
 </script>
+
 </html>

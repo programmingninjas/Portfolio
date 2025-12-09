@@ -32,7 +32,7 @@ This 3D Portfolio is built using the powerful combination of Blender and Three.j
 
 ## Installation
 
-As the 3D Portfolio is a web-based application, there is no installation required. Simply visit the live website [here](https://programmingninjas.github.io/Portfolio/) and immerse yourself in the experience.
+As the 3D Portfolio is a web-based application, there is no installation required. Simply visit the live website [here](https://ayan-khan.com) and immerse yourself in the experience.
 
 ## Feedback
 
