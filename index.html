@@ -7,6 +7,13 @@
     <title>Infinite Hallway</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <script src="https://kit.fontawesome.com/20b588ce94.js" crossorigin="anonymous"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.module.js"
+            }
+        }
+    </script>
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
@@ -139,10 +146,10 @@
     }
 </script>
 <script type="module">
-    import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
-    import { PointerLockControls } from '/PointerlockcontrolsMobile.js';
-    import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js'
-    import { DRACOLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/DRACOLoader.js'
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.module.js';
+    import { PointerLockControls } from './PointerlockcontrolsMobile.js';
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/jsm/loaders/DRACOLoader.js';
 
     let camera, scene, renderer, controls;
 
@@ -152,7 +159,7 @@
     let raycaster2;
     let currentIntersect = null;
     let enableRaycast = true;
-    let audio1 = new Audio('/models/Hall.mp3');
+    let audio1 = new Audio('/static/models/Hall.mp3');
     let urls = {
         0: "https://www.instagram.com/programmingninjas/p/CXFxAFeFYB9/?img_index=2",
         1: "https://www.instagram.com/reel/CcR7X-WA3nK/",
@@ -188,7 +195,9 @@
     let mesh1, mesh2;
     let imgObjects = [];
 
-    let audio = new Audio();
+    let audio = new Audio('/static/models/Hall.mp3');
+    audio.volume = 0.1;
+    audio.preload = 'auto';
     let currentTime = 0;
     let hall = new THREE.Object3D();
     let hallBox = new THREE.Box3();
@@ -273,8 +282,7 @@
         instructions.addEventListener('click', function () {
 
             controls.lock();
-            audio = new Audio('/static/models/Hall.mp3');
-            audio.volume = 0.1;
+            audio.play();
 
         });
 
@@ -282,8 +290,6 @@
 
             instructions.style.display = 'none';
             blocker.style.display = 'none';
-            audio.currentTime = currentTime
-            audio.play();
             enableRaycast = true;
 
         });
@@ -293,7 +299,6 @@
             blocker.style.display = 'block';
             instructions.style.display = '';
             audio.pause();
-            currentTime = audio.currentTime
             enableRaycast = false;
 
         });
@@ -404,11 +409,7 @@
             else {
                 if (!enableRaycast) {
                     controls.lock();
-                    instructions.style.display = 'none';
-                    blocker.style.display = 'none';
-                    audio.currentTime = currentTime
                     audio.play();
-                    enableRaycast = true;
                 }
             }
         })
