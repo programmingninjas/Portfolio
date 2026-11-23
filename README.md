@@ -16,11 +16,11 @@ This 3D Portfolio is built using the powerful combination of Blender and Three.j
 
 ## How to Use
 
-1. **Explore the Hall:** Click and drag to navigate through the 3D space and explore the different project showcases.
+1. Choose **Enter the hall** to walk with WASD or the onscreen direction pad. Drag to look around. The left and right arrow keys also turn the camera.
 
-2. **Discover Projects:** Each element in the hall represents a unique project. Click on them to learn more about the project and its details.
+2. Inspect a frame to read its date and story or open its original source. At SPARK, choose **Visit award** to travel from the April 2023 project to its March 2024 first-prize award. **Back to SPARK** returns to the project.
 
-3. **Connect with Me:** Feel free to connect with me on LinkedIn to discuss collaboration opportunities or share your thoughts on the portfolio.
+3. Open **Exhibit index** to search by topic or year. **Visit in 3D** takes you directly to that exhibit. The index also works when WebGL is unavailable.
 
 ## Technologies Used
 
@@ -33,6 +33,14 @@ This 3D Portfolio is built using the powerful combination of Blender and Three.j
 ## Installation
 
 As the 3D Portfolio is a web-based application, there is no installation required. Simply visit the live website [here](https://ayan-khan.com) and immerse yourself in the experience.
+
+For a local preview, run `python -m http.server 8000` from this directory and open `http://localhost:8000`. The site serves its Three.js modules, Draco decoder, fonts and images locally.
+
+## Adding an exhibit
+
+Add the poster to `static/imgs/` and insert an entry in [achievements.js](./achievements.js) at the desired position in the hallway. Supply a unique `id`, a `title`, a display `date` such as `April 2023`, a short `summary`, a relative poster `image` path, and the original source `url`. The hall and index use the same collection.
+
+To connect two milestones, set each entry’s `relatedId` to the other entry’s ID. An optional `relatedAction` names the jump button. Every frame displays its original poster. An optional `wallImage` can supply a smaller copy of that print for distant frames. Set `featured: true` to show an exhibit at the entrance, where `artwork` can supply its cover illustration.
 
 ## Feedback
 
